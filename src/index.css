@@ -1,0 +1,101 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --font-sans: "Inter", "Space Grotesk", "monospace", "sans-serif";
+}
+
+:root {
+  --primary: #E0E0E0;
+  --secondary: #FF4400;
+}
+
+body {
+  background-color: var(--primary);
+  color: var(--secondary);
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-sans);
+}
+
+/* Markdown prose styling within brutalist theme */
+.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.05em;
+  color: var(--secondary);
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+.prose h1 { font-size: 2rem; }
+.prose h2 { font-size: 1.5rem; border-bottom: 2px solid var(--secondary); padding-bottom: 0.25em; }
+.prose h3 { font-size: 1.25rem; }
+.prose p { margin-bottom: 0.75em; line-height: 1.7; }
+.prose ul, .prose ol { padding-left: 1.5em; margin-bottom: 0.75em; }
+.prose li { margin-bottom: 0.25em; }
+.prose code {
+  background: var(--secondary);
+  color: var(--primary);
+  padding: 0.15em 0.4em;
+  font-family: monospace;
+  font-size: 0.85em;
+}
+.prose pre {
+  background: #1a1a1a;
+  color: #e0e0e0;
+  padding: 1em;
+  overflow-x: auto;
+  margin-bottom: 0.75em;
+}
+.prose pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+}
+.prose blockquote {
+  border-left: 4px solid var(--secondary);
+  padding-left: 1em;
+  margin-left: 0;
+  font-style: italic;
+  opacity: 0.8;
+}
+.prose a {
+  color: var(--secondary);
+  text-decoration: underline;
+  font-weight: 700;
+}
+.prose hr {
+  border: none;
+  border-top: 2px solid var(--secondary);
+  margin: 1.5em 0;
+}
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 0.75em;
+}
+.prose th, .prose td {
+  border: 2px solid var(--secondary);
+  padding: 0.5em 0.75em;
+  text-align: left;
+}
+.prose th {
+  background: var(--secondary);
+  color: var(--primary);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.025em;
+}
+
+/* Custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--secondary);
+  border-radius: 0;
+}
