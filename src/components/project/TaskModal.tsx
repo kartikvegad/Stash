@@ -3,40 +3,42 @@ import { useProjects } from '../../context/ProjectContext';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { X } from 'lucide-react';
-import { ProjectLink } from '../../types';
+import { ProjectTask } from '../../types';
 
-interface LinkModalProps {
+interface TaskModalProps {
   isOpen: boolean;
   onClose: () => void;
   projectId: string;
-  existingLink?: ProjectLink;
+  existingTask?: ProjectTask;
 }
 
-export const LinkModal: React.FC<LinkModalProps> = ({ isOpen, onClose, projectId, existingLink }) => {
-  const { addLink, updateLink } = useProjects();
-  const [name, setName] = useState('');
-  const [url, setUrl] = useState('');
+export const TaskModal: React.FC<TaskModalProps> = ({ isOpen, onClose, projectId, existingTask }) => {
+  const { addTask, updateTask } = useProjects();
+  const [title, setTitle] = useState('');
+  const [deadline, setDeadline] = useState('');
 
   useEffect(() => {
-    if (existingLink) {
-      setName(existingLink.name);
-      setUrl(existingLink.url);
+    if (existingTask) {
+      setTitle(existingTask.title);
+      setDeadline(existingTask.deadline ?? '');
     } else {
-      setName('');
-      setUrl('');
+      setTitle('');
+      setDeadline('');
     }
-  }, [existingLink, isOpen]);
+  }, [existingTask, isOpen]);
 
   if (!isOpen) return null;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim() || !url.trim()) return;
+    if (!title.trim()) return;
 
-    if (existingLink) {
-      updateLink(existingLink.id, { name, url });
+    const nextDeadline = deadline.trim() || undefined;
+
+    if (existingTask) {
+      updateTask(existingTask.id, { title, deadline: nextDeadline });
     } else {
-      addLink({ project_id: projectId, name, url });
+      addTask({ project_id: projectId, title, done: false, deadline: nextDeadline });
     }
     onClose();
   };
@@ -49,25 +51,23 @@ export const LinkModal: React.FC<LinkModalProps> = ({ isOpen, onClose, projectId
         </button>
         
         <h2 className="text-3xl font-extrabold tracking-tight text-[var(--secondary)] mb-8">
-          {existingLink ? 'Edit link' : 'New link'}
+          {existingTask ? 'Edit task' : 'New task'}
         </h2>
         
         <form onSubmit={handleSubmit} className="flex flex-col gap-5">
           <Input 
-            label="Name" 
-            placeholder="e.g. Production URL"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            label="Title" 
+            placeholder="e.g. Ship landing page"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
             autoFocus
             required
           />
           <Input 
-            label="URL" 
-            type="url"
-            placeholder="https://"
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-            required
+            label="Deadline" 
+            type="date"
+            value={deadline}
+            onChange={(e) => setDeadline(e.target.value)}
           />
           
           <div className="flex justify-end gap-3 mt-2">

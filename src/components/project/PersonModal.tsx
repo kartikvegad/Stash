@@ -3,40 +3,43 @@ import { useProjects } from '../../context/ProjectContext';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { X } from 'lucide-react';
-import { ProjectLink } from '../../types';
+import { ProjectPerson } from '../../types';
 
-interface LinkModalProps {
+interface PersonModalProps {
   isOpen: boolean;
   onClose: () => void;
   projectId: string;
-  existingLink?: ProjectLink;
+  existingPerson?: ProjectPerson;
 }
 
-export const LinkModal: React.FC<LinkModalProps> = ({ isOpen, onClose, projectId, existingLink }) => {
-  const { addLink, updateLink } = useProjects();
+export const PersonModal: React.FC<PersonModalProps> = ({ isOpen, onClose, projectId, existingPerson }) => {
+  const { addPerson, updatePerson } = useProjects();
   const [name, setName] = useState('');
-  const [url, setUrl] = useState('');
+  const [role, setRole] = useState('');
+  const [contact, setContact] = useState('');
 
   useEffect(() => {
-    if (existingLink) {
-      setName(existingLink.name);
-      setUrl(existingLink.url);
+    if (existingPerson) {
+      setName(existingPerson.name);
+      setRole(existingPerson.role);
+      setContact(existingPerson.contact);
     } else {
       setName('');
-      setUrl('');
+      setRole('');
+      setContact('');
     }
-  }, [existingLink, isOpen]);
+  }, [existingPerson, isOpen]);
 
   if (!isOpen) return null;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim() || !url.trim()) return;
+    if (!name.trim()) return;
 
-    if (existingLink) {
-      updateLink(existingLink.id, { name, url });
+    if (existingPerson) {
+      updatePerson(existingPerson.id, { name, role, contact });
     } else {
-      addLink({ project_id: projectId, name, url });
+      addPerson({ project_id: projectId, name, role, contact });
     }
     onClose();
   };
@@ -49,25 +52,29 @@ export const LinkModal: React.FC<LinkModalProps> = ({ isOpen, onClose, projectId
         </button>
         
         <h2 className="text-3xl font-extrabold tracking-tight text-[var(--secondary)] mb-8">
-          {existingLink ? 'Edit link' : 'New link'}
+          {existingPerson ? 'Edit person' : 'New person'}
         </h2>
         
         <form onSubmit={handleSubmit} className="flex flex-col gap-5">
           <Input 
             label="Name" 
-            placeholder="e.g. Production URL"
+            placeholder="e.g. Alex Rivera"
             value={name}
             onChange={(e) => setName(e.target.value)}
             autoFocus
             required
           />
           <Input 
-            label="URL" 
-            type="url"
-            placeholder="https://"
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-            required
+            label="Role" 
+            placeholder="e.g. Designer"
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+          />
+          <Input 
+            label="Contact" 
+            placeholder="e.g. alex@studio.com"
+            value={contact}
+            onChange={(e) => setContact(e.target.value)}
           />
           
           <div className="flex justify-end gap-3 mt-2">

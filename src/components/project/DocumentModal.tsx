@@ -42,20 +42,20 @@ export const DocumentModal: React.FC<DocumentModalProps> = ({ isOpen, onClose, p
   };
 
   return (
-    <div className="fixed inset-0 bg-[var(--secondary)]/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-[var(--primary)] border-4 border-[var(--secondary)] w-full max-w-5xl h-[90vh] flex flex-col relative shadow-[8px_8px_0px_0px_var(--secondary)]">
-        <div className="flex justify-between items-center p-6 border-b-4 border-[var(--secondary)]">
-          <h2 className="text-4xl font-black uppercase tracking-tighter text-[var(--secondary)]">
-            {existingDocument ? 'EDIT DOCUMENT' : 'NEW DOCUMENT'}
+    <div className="modal-overlay">
+      <div className="modal-panel max-w-5xl h-[90vh] flex flex-col p-0 overflow-hidden">
+        <div className="flex justify-between items-center p-6">
+          <h2 className="text-3xl font-extrabold tracking-tight text-[var(--secondary)]">
+            {existingDocument ? 'Edit document' : 'New document'}
           </h2>
-          <button onClick={onClose} className="text-[var(--secondary)] hover:opacity-70 transition-opacity">
-            <X className="w-8 h-8" />
+          <button onClick={onClose} className="text-[var(--muted)] hover:text-[var(--secondary)] transition-colors">
+            <X className="w-7 h-7" />
           </button>
         </div>
         
-        <form onSubmit={handleSubmit} className="flex flex-col flex-grow p-6 overflow-hidden gap-6">
+        <form onSubmit={handleSubmit} className="flex flex-col flex-grow px-6 pb-6 overflow-hidden gap-5">
           <Input 
-            label="Document Name" 
+            label="Document name" 
             placeholder="e.g. README.md"
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -63,21 +63,21 @@ export const DocumentModal: React.FC<DocumentModalProps> = ({ isOpen, onClose, p
             required
           />
           
-          <div className="flex flex-col flex-grow gap-1">
-            <label className="text-xs font-bold uppercase tracking-wider text-[var(--secondary)]">
-              Markdown Content
+          <div className="flex flex-col flex-grow gap-1.5">
+            <label className="ui-label">
+              Markdown content
             </label>
             <textarea
-              className="flex-grow px-4 py-4 bg-[var(--primary)] border-2 border-[var(--secondary)] text-[var(--secondary)] font-mono placeholder:text-[var(--secondary)]/50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--secondary)] rounded-none w-full resize-none custom-scrollbar"
+              className="flex-grow px-4 py-4 bg-[var(--primary)] border border-[var(--border)] text-[var(--secondary)] font-mono placeholder:text-[var(--muted)]/70 focus:outline-none focus:ring-2 focus:ring-[var(--accent)] rounded-2xl w-full resize-none custom-scrollbar"
               placeholder="# Introduction..."
               value={content}
               onChange={(e) => setContent(e.target.value)}
             />
           </div>
           
-          <div className="flex justify-end gap-4 mt-2">
-            <Button type="button" variant="ghost" onClick={onClose}>CANCEL</Button>
-            <Button type="submit">SAVE DOCUMENT</Button>
+          <div className="flex justify-end gap-3">
+            <Button type="button" variant="ghost" onClick={onClose}>Cancel</Button>
+            <Button type="submit">Save document</Button>
           </div>
         </form>
       </div>

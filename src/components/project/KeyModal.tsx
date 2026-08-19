@@ -44,17 +44,17 @@ export const KeyModal: React.FC<KeyModalProps> = ({ isOpen, onClose, projectId, 
   };
 
   return (
-    <div className="fixed inset-0 bg-[var(--secondary)]/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-[var(--primary)] border-4 border-[var(--secondary)] w-full max-w-lg p-8 relative shadow-[8px_8px_0px_0px_var(--secondary)]">
-        <button onClick={onClose} className="absolute top-4 right-4 text-[var(--secondary)] hover:opacity-70 transition-opacity">
+    <div className="modal-overlay">
+      <div className="modal-panel max-w-lg">
+        <button onClick={onClose} className="absolute top-5 right-5 text-[var(--muted)] hover:text-[var(--secondary)] transition-colors">
           <X className="w-6 h-6" />
         </button>
         
-        <h2 className="text-4xl font-black uppercase tracking-tighter text-[var(--secondary)] mb-8">
-          {existingKey ? 'EDIT KEY' : 'NEW KEY'}
+        <h2 className="text-3xl font-extrabold tracking-tight text-[var(--secondary)] mb-8">
+          {existingKey ? 'Edit key' : 'New key'}
         </h2>
         
-        <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
           <Input 
             label="Name" 
             placeholder="e.g. AWS Access Key"
@@ -64,7 +64,7 @@ export const KeyModal: React.FC<KeyModalProps> = ({ isOpen, onClose, projectId, 
             required
           />
           
-          <div className="flex flex-col gap-1 w-full relative">
+          <div className="flex flex-col gap-1.5 w-full relative">
             <Input 
               label="Value" 
               type={showValue ? 'text' : 'password'}
@@ -76,15 +76,15 @@ export const KeyModal: React.FC<KeyModalProps> = ({ isOpen, onClose, projectId, 
             <button 
               type="button"
               onClick={() => setShowValue(!showValue)}
-              className="absolute right-3 top-7 text-[var(--secondary)]/70 hover:text-[var(--secondary)]"
+              className="absolute right-3 top-8 text-[var(--muted)] hover:text-[var(--secondary)]"
             >
               {showValue ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
             </button>
           </div>
           
-          <div className="flex justify-end gap-4 mt-4">
-            <Button type="button" variant="ghost" onClick={onClose}>CANCEL</Button>
-            <Button type="submit">SAVE</Button>
+          <div className="flex justify-end gap-3 mt-2">
+            <Button type="button" variant="ghost" onClick={onClose}>Cancel</Button>
+            <Button type="submit">Save</Button>
           </div>
         </form>
       </div>

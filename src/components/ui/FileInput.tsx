@@ -17,21 +17,20 @@ export const FileInput: React.FC<FileInputProps> = ({ label, accept, preview, on
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) onChange(file);
-    // Reset so same file can be re-selected
     e.target.value = '';
   };
 
   return (
-    <div className="flex flex-col gap-1 w-full">
-      <label className="text-xs font-bold uppercase tracking-wider text-[var(--secondary)]">{label}</label>
+    <div className="flex flex-col gap-1.5 w-full">
+      <label className="ui-label">{label}</label>
 
       {preview ? (
-        <div className="relative border-2 border-[var(--secondary)] h-24 flex items-center justify-center overflow-hidden group">
+        <div className="relative border border-[var(--border)] bg-[var(--primary)] rounded-2xl h-24 flex items-center justify-center overflow-hidden group">
           <img src={preview} alt="Preview" className="h-full w-full object-contain p-2" />
           <button
             type="button"
             onClick={onClear}
-            className="absolute top-1 right-1 bg-[var(--secondary)] text-[var(--primary)] p-0.5 opacity-0 group-hover:opacity-100 transition-opacity"
+            className="absolute top-2 right-2 bg-[var(--secondary)] text-[var(--primary)] p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
           >
             <X className="w-3 h-3" />
           </button>
@@ -40,10 +39,10 @@ export const FileInput: React.FC<FileInputProps> = ({ label, accept, preview, on
         <button
           type="button"
           onClick={handleClick}
-          className="border-2 border-dashed border-[var(--secondary)] h-24 flex flex-col items-center justify-center gap-2 hover:bg-[var(--secondary)]/5 transition-colors text-[var(--secondary)] cursor-pointer"
+          className="border border-dashed border-[var(--border)] bg-[var(--primary)] rounded-2xl h-24 flex flex-col items-center justify-center gap-2 hover:bg-[var(--accent)]/50 transition-colors text-[var(--muted)] cursor-pointer"
         >
           <Upload className="w-5 h-5" />
-          <span className="text-xs font-bold uppercase tracking-wider">Click to upload</span>
+          <span className="text-xs font-semibold">Click to upload</span>
         </button>
       )}
 

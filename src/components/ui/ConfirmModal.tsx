@@ -16,38 +16,40 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
   isOpen, 
   title, 
   message, 
-  confirmText = 'CONFIRM', 
-  cancelText = 'CANCEL',
+  confirmText = 'Confirm', 
+  cancelText = 'Cancel',
   onConfirm, 
   onClose 
 }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-[var(--secondary)]/50 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
-      <div className="bg-[var(--primary)] border-4 border-red-600 w-full max-w-md p-8 relative shadow-[8px_8px_0px_0px_#dc2626]">
-        <button onClick={onClose} className="absolute top-4 right-4 text-[var(--secondary)] hover:opacity-70 transition-opacity">
+    <div className="modal-overlay" style={{ zIndex: 100 }}>
+      <div className="modal-panel max-w-md">
+        <button onClick={onClose} className="absolute top-5 right-5 text-[var(--muted)] hover:text-[var(--secondary)] transition-colors">
           <X className="w-6 h-6" />
         </button>
         
-        <div className="flex items-center gap-3 mb-6 text-red-600">
-          <AlertTriangle className="w-8 h-8" />
-          <h2 className="text-3xl font-black uppercase tracking-tighter">
+        <div className="flex items-center gap-3 mb-5 text-red-600">
+          <div className="bg-red-50 p-2 rounded-full">
+            <AlertTriangle className="w-6 h-6" />
+          </div>
+          <h2 className="text-2xl font-extrabold tracking-tight">
             {title}
           </h2>
         </div>
         
-        <p className="text-lg font-medium text-[var(--secondary)] mb-8">
+        <p className="text-base font-medium text-[var(--muted)] mb-8">
           {message}
         </p>
         
-        <div className="flex justify-end gap-4">
+        <div className="flex justify-end gap-3">
           <Button type="button" variant="ghost" onClick={onClose}>
             {cancelText}
           </Button>
           <Button 
             type="button" 
-            className="bg-red-600 text-white border-red-600 hover:bg-red-700 hover:border-red-700" 
+            className="bg-red-600 text-white hover:bg-red-700" 
             onClick={() => {
               onConfirm();
               onClose();

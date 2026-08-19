@@ -3,40 +3,43 @@ import { useProjects } from '../../context/ProjectContext';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { X } from 'lucide-react';
-import { ProjectLink } from '../../types';
+import { ProjectCommand } from '../../types';
 
-interface LinkModalProps {
+interface CommandModalProps {
   isOpen: boolean;
   onClose: () => void;
   projectId: string;
-  existingLink?: ProjectLink;
+  existingCommand?: ProjectCommand;
 }
 
-export const LinkModal: React.FC<LinkModalProps> = ({ isOpen, onClose, projectId, existingLink }) => {
-  const { addLink, updateLink } = useProjects();
+export const CommandModal: React.FC<CommandModalProps> = ({ isOpen, onClose, projectId, existingCommand }) => {
+  const { addCommand, updateCommand } = useProjects();
   const [name, setName] = useState('');
-  const [url, setUrl] = useState('');
+  const [command, setCommand] = useState('');
+  const [notes, setNotes] = useState('');
 
   useEffect(() => {
-    if (existingLink) {
-      setName(existingLink.name);
-      setUrl(existingLink.url);
+    if (existingCommand) {
+      setName(existingCommand.name);
+      setCommand(existingCommand.command);
+      setNotes(existingCommand.notes);
     } else {
       setName('');
-      setUrl('');
+      setCommand('');
+      setNotes('');
     }
-  }, [existingLink, isOpen]);
+  }, [existingCommand, isOpen]);
 
   if (!isOpen) return null;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim() || !url.trim()) return;
+    if (!name.trim() || !command.trim()) return;
 
-    if (existingLink) {
-      updateLink(existingLink.id, { name, url });
+    if (existingCommand) {
+      updateCommand(existingCommand.id, { name, command, notes });
     } else {
-      addLink({ project_id: projectId, name, url });
+      addCommand({ project_id: projectId, name, command, notes });
     }
     onClose();
   };
@@ -49,26 +52,34 @@ export const LinkModal: React.FC<LinkModalProps> = ({ isOpen, onClose, projectId
         </button>
         
         <h2 className="text-3xl font-extrabold tracking-tight text-[var(--secondary)] mb-8">
-          {existingLink ? 'Edit link' : 'New link'}
+          {existingCommand ? 'Edit command' : 'New command'}
         </h2>
         
         <form onSubmit={handleSubmit} className="flex flex-col gap-5">
           <Input 
             label="Name" 
-            placeholder="e.g. Production URL"
+            placeholder="e.g. Start local server"
             value={name}
             onChange={(e) => setName(e.target.value)}
             autoFocus
             required
           />
           <Input 
-            label="URL" 
-            type="url"
-            placeholder="https://"
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
+            label="Command" 
+            placeholder="e.g. npm run dev"
+            value={command}
+            onChange={(e) => setCommand(e.target.value)}
             required
           />
+          <div className="flex flex-col gap-1.5 w-full">
+            <label className="ui-label">Notes</label>
+            <textarea
+              className="ui-textarea min-h-[100px]"
+              placeholder="When to use this, flags, caveats..."
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+            />
+          </div>
           
           <div className="flex justify-end gap-3 mt-2">
             <Button type="button" variant="ghost" onClick={onClose}>Cancel</Button>

@@ -42,17 +42,17 @@ export const NoteModal: React.FC<NoteModalProps> = ({ isOpen, onClose, projectId
   };
 
   return (
-    <div className="fixed inset-0 bg-[var(--secondary)]/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-[var(--primary)] border-4 border-[var(--secondary)] w-full max-w-2xl p-8 relative shadow-[8px_8px_0px_0px_var(--secondary)]">
-        <button onClick={onClose} className="absolute top-4 right-4 text-[var(--secondary)] hover:opacity-70 transition-opacity">
+    <div className="modal-overlay">
+      <div className="modal-panel max-w-2xl">
+        <button onClick={onClose} className="absolute top-5 right-5 text-[var(--muted)] hover:text-[var(--secondary)] transition-colors">
           <X className="w-6 h-6" />
         </button>
         
-        <h2 className="text-4xl font-black uppercase tracking-tighter text-[var(--secondary)] mb-8">
-          {existingNote ? 'EDIT NOTE' : 'NEW NOTE'}
+        <h2 className="text-3xl font-extrabold tracking-tight text-[var(--secondary)] mb-8">
+          {existingNote ? 'Edit note' : 'New note'}
         </h2>
         
-        <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
           <Input 
             label="Title" 
             placeholder="e.g. Server Setup Steps"
@@ -62,10 +62,10 @@ export const NoteModal: React.FC<NoteModalProps> = ({ isOpen, onClose, projectId
             required
           />
           
-          <div className="flex flex-col gap-1 w-full">
-            <label className="text-xs font-bold uppercase tracking-wider text-[var(--secondary)]">Content</label>
+          <div className="flex flex-col gap-1.5 w-full">
+            <label className="ui-label">Content</label>
             <textarea
-              className="px-3 py-2 bg-[var(--primary)] border-2 border-[var(--secondary)] text-[var(--secondary)] placeholder:text-[var(--secondary)]/50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--secondary)] rounded-none w-full min-h-[200px] resize-none"
+              className="ui-textarea min-h-[200px]"
               placeholder="Detailed notes..."
               value={content}
               onChange={(e) => setContent(e.target.value)}
@@ -73,9 +73,9 @@ export const NoteModal: React.FC<NoteModalProps> = ({ isOpen, onClose, projectId
             />
           </div>
           
-          <div className="flex justify-end gap-4 mt-4">
-            <Button type="button" variant="ghost" onClick={onClose}>CANCEL</Button>
-            <Button type="submit">SAVE</Button>
+          <div className="flex justify-end gap-3 mt-2">
+            <Button type="button" variant="ghost" onClick={onClose}>Cancel</Button>
+            <Button type="submit">Save</Button>
           </div>
         </form>
       </div>
